@@ -105,9 +105,8 @@ namespace Auth0MvcApp.Controllers
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("authorization", $"Bearer {apiAccessToken?.AccessToken}");
 
-            var response = await client.SendAsync(request);
             object responseObject = "sample";
-
+            using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
             if (response.IsSuccessStatusCode)
             {
                 using var responseStream = await response.Content.ReadAsStreamAsync();
